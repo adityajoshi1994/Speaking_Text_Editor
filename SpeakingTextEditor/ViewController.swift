@@ -10,6 +10,19 @@ import Cocoa
 
 class ViewController: NSViewController {
 
+    @IBOutlet var textView: NSTextView!
+    
+    var contents: String {
+        get{
+            return textView.string
+        }
+        set{
+            textView.string = newValue
+        }
+    }
+    
+    let speechSynthesizer = NSSpeechSynthesizer()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,7 +34,20 @@ class ViewController: NSViewController {
         // Update the view, if already loaded.
         }
     }
-
+    
+    @IBAction func speakButtonClicked (sender: NSButton){
+        
+        if let contents: String = textView.string, !contents.isEmpty {
+            speechSynthesizer.startSpeaking(contents)
+        }else{
+            speechSynthesizer.startSpeaking("Nothing much to say.")
+        }
+        
+    }
+    
+    @IBAction func stopButtonClicked (sender: NSButton){
+        speechSynthesizer.stopSpeaking()
+    }
 
 }
 
